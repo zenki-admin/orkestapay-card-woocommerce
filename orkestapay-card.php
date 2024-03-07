@@ -20,10 +20,10 @@ if (!defined('ABSPATH')) {
 }
 
 define('ORKESTAPAY_CARD_WC_PLUGIN_FILE', __FILE__);
-define('ORKESTAPAY_CARD_API_URL', 'https://api.dev.orkestapay.com');
-define('ORKESTAPAY_CARD_API_SAND_URL', 'https://api.dev.orkestapay.com');
-define('ORKESTAPAY_CARD_JS_URL', 'https://checkout.dev.orkestapay.com');
-define('ORKESTAPAY_CARD_JS_SAND_URL', 'https://checkout.dev.orkestapay.com');
+define('ORKESTAPAY_CARD_API_URL', 'https://api.orkestapay.com');
+define('ORKESTAPAY_CARD_API_SAND_URL', 'https://api.sand.orkestapay.com');
+define('ORKESTAPAY_CARD_JS_URL', 'https://checkout.orkestapay.com');
+define('ORKESTAPAY_CARD_JS_SAND_URL', 'https://checkout.sand.orkestapay.com');
 
 // Languages traslation
 load_plugin_textdomain('orkestapay-card', false, dirname(plugin_basename(__FILE__)) . '/languages/');
@@ -98,7 +98,7 @@ function orkestapay_card_woocommerce_order_refunded($order_id, $refund_id)
     $refundData = ['description' => $refund->get_reason(), 'amount' => floatval($refund->get_amount())];
 
     try {
-        $orkestapay = new OrkestaPay_Gateway();
+        $orkestapay = new OrkestaPayCard_Gateway();
         $apiHost = $orkestapay->getApiHost();
 
         OrkestaPayCard_API::request($refundData, "$apiHost/v1/orders/{$orkestaOrderId}/payments/{$orkestaPaymentId}/refund", 'PATCH');
