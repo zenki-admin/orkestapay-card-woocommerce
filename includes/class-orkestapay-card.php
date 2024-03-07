@@ -1,7 +1,7 @@
 <?php
 
 /**
- * OrkestaPay_Gateway class.
+ * OrkestaPayCard_Gateway class.
  *
  * @extends WC_Payment_Gateway
  */
@@ -86,7 +86,7 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
                 'description' => __('Payment method title that the customer will see on your checkout.', 'orkestapay-card'),
             ],
             'description' => [
-                'title' => __('Description', 'woocommerce'),
+                'title' => __('Description', 'orkestapay-card'),
                 'type' => 'textarea',
                 'description' => __('Payment method description that the customer will see on your website.', 'orkestapay-card'),
                 'default' => __('Pay with your credit or debit card.', 'orkestapay-card'),
@@ -251,7 +251,7 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
         wp_enqueue_script('wc-credit-card-form');
 
         $apiHost = $this->getApiHost();
-        $this->brands = OrkestaPay_API::retrieve("$apiHost/v1/merchants/providers/brands");
+        $this->brands = OrkestaPayCard_API::retrieve("$apiHost/v1/merchants/providers/brands");
 
         include_once dirname(__DIR__) . '/templates/payment.php';
     }

@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
     <div class="form-row form-row-wide">
         <label for="orkesta-card-cvc"><?php esc_html_e('Card Code (CVC)', 'orkestapay-card'); ?> <span class="required">*</span></label>
         <div class="wc-orkesta-field">
-            <input id="orkesta-card-cvc" name="orkesta_card_cvc" class="input-text wc-credit-card-form-card-cvc" type="text" autocomplete="off" placeholder="CVV" />
+            <input id="orkesta-card-cvc" class="input-text wc-credit-card-form-card-cvc" type="text" autocomplete="off" placeholder="CVV" />
         </div>
     </div>    
 

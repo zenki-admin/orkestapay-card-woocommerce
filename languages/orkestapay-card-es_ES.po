@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Orkesta Payments Orchestration for WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 01:58+0000\n"
-"PO-Revision-Date: 2024-03-06 23:12+0000\n"
+"PO-Revision-Date: 2024-03-07 01:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -60,6 +60,10 @@ msgstr "La configuración se completó correctamente."
 #: includes/class-orkestapay-card.php:85
 msgid "Credit Card"
 msgstr "Tarjeta de crédito"
+
+#: includes/class-orkestapay-card.php:89
+msgid "Description"
+msgstr "Descripción"
 
 #: includes/class-orkestapay-card.php:124
 msgid "Device Key"
