@@ -2,11 +2,11 @@
     clear: both;
 }
 
-.wc-orkesta-field {
+.wc-orkestapay-field {
     margin: 5px 0;
 }
 
-.orkesta-credit-cards {
+.orkestapay-credit-cards {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -15,11 +15,19 @@
     margin-top: 10px;
 }
 
-.orkesta-credit-cards img {
+.orkestapay-credit-cards img {
     height: 32px;
 }
 
-.orkesta-cards-copy {
+.orkestapay-cards-copy {
     font-weight: 600;
     margin: 12px 0px 0px 0px;
+}
+
+.orkestapay-select {
+    color: #444;
+    line-height: 28px;
+    border-radius: 2px !important;
+    padding: 5px 10px !important;
+    border: solid 2px #e4e4e4;
 }

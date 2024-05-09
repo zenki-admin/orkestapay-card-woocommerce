@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Orkesta Payments Orchestration for WooCommerce\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-29 01:58+0000\n"
-"PO-Revision-Date: 2024-03-07 01:13+0000\n"
+"PO-Revision-Date: 2024-04-17 23:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish (Mexico)\n"
 "Language: es_MX\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Loco-Version: 2.6.6; wp-6.1.1\n"
 "X-Domain: orkestapay-card"
 
-#: includes/class-orkestapay-card.php:318
+#: includes/class-orkestapay-card.php:302
 msgid "A transaction error occurred. Your credit card has not been charged."
 msgstr ""
 "Se produjo un error en la transacción. Su tarjeta de crédito no ha sido "
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Accepted cards"
 msgstr "Tarjetas aceptadas"
 
-#: includes/class-orkestapay-card.php:104
+#: includes/class-orkestapay-card.php:102
 msgid "Access Key"
 msgstr "Llave de acceso"
 
-#: includes/class-orkestapay-card.php:363
+#: includes/class-orkestapay-card.php:347
 msgid "An error occurred getting access token."
 msgstr "Se produjo un error al obtener el token de acceso."
 
@@ -41,11 +41,11 @@ msgstr "Código (CVV)"
 msgid "Card Number"
 msgstr "Número de tarjeta"
 
-#: includes/class-orkestapay-card.php:73
+#: includes/class-orkestapay-card.php:71
 msgid "Check the box to enable Orkesta as a payment method."
 msgstr "Marca la casilla para habilitar Orkesta como método de pago."
 
-#: includes/class-orkestapay-card.php:80
+#: includes/class-orkestapay-card.php:78
 msgid "Check the box to make test payments."
 msgstr "Marca la casilla para realizar pagos de prueba."
 
@@ -53,32 +53,28 @@ msgstr "Marca la casilla para realizar pagos de prueba."
 msgid "click here"
 msgstr "clic quí"
 
-#: includes/class-orkestapay-card.php:214
+#: includes/class-orkestapay-card.php:200
 msgid "Configuration completed successfully."
 msgstr "La configuración se completó correctamente."
 
-#: includes/class-orkestapay-card.php:85
+#: includes/class-orkestapay-card.php:83
 msgid "Credit Card"
 msgstr "Tarjeta de crédito"
 
-#: includes/class-orkestapay-card.php:89
+#: includes/class-orkestapay-card.php:87
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/class-orkestapay-card.php:124
-msgid "Device Key"
-msgstr "Clave del dispositivo"
-
-#: includes/class-orkestapay-card.php:70 includes/class-orkestapay-card.php:77
+#: includes/class-orkestapay-card.php:68 includes/class-orkestapay-card.php:75
 msgid "Enable"
 msgstr "Habilitar"
 
-#: includes/class-orkestapay-card.php:69
+#: includes/class-orkestapay-card.php:67
 #| msgid "Enable Orkesta"
 msgid "Enable OrkestaPay"
 msgstr "Habiltar OrkestaPay"
 
-#: includes/class-orkestapay-card.php:76
+#: includes/class-orkestapay-card.php:74
 msgid "Enable test mode"
 msgstr "Habilitar modo de pruebas"
 
@@ -102,7 +98,7 @@ msgstr ""
 msgid "https://zenkipay.io"
 msgstr ""
 
-#: includes/class-orkestapay-card.php:95
+#: includes/class-orkestapay-card.php:93
 msgid "Merchant ID"
 msgstr "ID del comercio"
 
@@ -115,7 +111,7 @@ msgstr ""
 "Organice múltiples pasarelas de pago para una experiencia de pago segura, "
 "confiable y sin fricciones."
 
-#: includes/class-orkestapay-card.php:163
+#: includes/class-orkestapay-card.php:150
 msgid "Orkesta needs WooCommerce plugin is installed and activated to work."
 msgstr ""
 "Orkesta necesita que el plugin de WooCommerce esté instalado y activado para "
@@ -126,35 +122,39 @@ msgstr ""
 msgid "OrkestaPay Card"
 msgstr "OrkestaPay Card"
 
-#: includes/class-orkestapay-card.php:92
+#: includes/class-orkestapay-card.php:90
 msgid "Pay with your credit or debit card."
 msgstr "Paga con tu tarjeta de crédito o débito."
 
-#: includes/class-orkestapay-card.php:293
+#: includes/class-orkestapay-card.php:277
 msgid "Payment Failed."
 msgstr "Pago fallido."
 
-#: includes/class-orkestapay-card.php:91
+#: includes/class-orkestapay-card.php:89
 msgid "Payment method description that the customer will see on your website."
 msgstr "Descripción del método de pago que el cliente verá en su sitio web."
 
-#: includes/class-orkestapay-card.php:86
+#: includes/class-orkestapay-card.php:84
 msgid "Payment method title that the customer will see on your checkout."
 msgstr "Título del método de pago que el cliente verá en el checkout."
 
-#: includes/class-orkestapay-card.php:210
+#: includes/class-orkestapay-card.php:196
 msgid "Provided credentials are invalid."
 msgstr "Las credenciales proporcionadas no son válidas."
 
-#: includes/class-orkestapay-card.php:114
+#: includes/class-orkestapay-card.php:122
+msgid "Public Key"
+msgstr "Llave pública"
+
+#: includes/class-orkestapay-card.php:112
 msgid "Secret Key"
 msgstr "Llave secreta"
 
-#: orkestapay-card.php:53
+#: orkestapay-card.php:52
 msgid "Settings"
 msgstr "Ajustes"
 
-#: includes/class-orkestapay-card.php:51
+#: includes/class-orkestapay-card.php:50
 msgid ""
 "TEST MODE ENABLED. In test mode, you can use the card number "
 "4242424242424242 with any CVC and a valid expiration date."
@@ -170,22 +170,13 @@ msgstr "Hubo un problema al conectarse al API de Orkesta."
 msgid "There was a problem getting the access token."
 msgstr "Hubo un problema al obtener el token de acceso."
 
-#: includes/class-orkestapay-card.php:136
-msgid "This secret is required to verify payment notifications."
-msgstr ""
-"Esta llave secreta es necesaria para verificar las notificaciones de pago."
-
-#: includes/class-orkestapay-card.php:83
+#: includes/class-orkestapay-card.php:81
 msgid "Title"
 msgstr "Título"
 
 #: templates/admin.php:12
 msgid "Unlocking Payment Ecosystem"
 msgstr "Unlocking Payment Ecosystem"
-
-#: includes/class-orkestapay-card.php:133
-msgid "Webhook Signing Secret"
-msgstr "Llave secreta de webhook"
 
 #. Author of the plugin
 msgid "Zenkipay"
