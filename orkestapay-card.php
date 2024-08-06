@@ -1,11 +1,11 @@
 <?php
 /*
  * Plugin Name: OrkestaPay Card
- * Plugin URI: https://wordpress.org/plugins/orkestapay/
+ * Plugin URI: https://wordpress.org/plugins/orkestapay-card
  * Description: Orchestrate multiple payment gateways for a frictionless, reliable, and secure checkout experience.
  * Author: Zenkipay
  * Author URI: https://zenkipay.io
- * Version: 0.2.0
+ * Version: 0.3.0
  * Requires at least: 5.8
  * Tested up to: 6.4.1
  * WC requires at least: 6.8
@@ -86,8 +86,8 @@ function orkestapay_card_woocommerce_order_refunded($order_id, $refund_id)
         return;
     }
 
-    $orkestaOrderId = get_post_meta($order_id, '_orkesta_order_id', true);
-    $orkestaPaymentId = get_post_meta($order_id, '_orkesta_payment_id', true);
+    $orkestaOrderId = get_post_meta($order_id, '_orkestapay_order_id', true);
+    $orkestaPaymentId = get_post_meta($order_id, '_orkestapay_payment_id', true);
     OrkestaPayCard_Logger::log('#orkesta_woocommerce_order_refunded', ['orkesta_order_id' => $orkestaOrderId, 'orkesta_payment_id' => $orkestaPaymentId]);
 
     if (OrkestaPayCard_Helper::is_null_or_empty_string($orkestaOrderId) || OrkestaPayCard_Helper::is_null_or_empty_string($orkestaPaymentId)) {
@@ -100,7 +100,7 @@ function orkestapay_card_woocommerce_order_refunded($order_id, $refund_id)
         $orkestapay = new OrkestaPayCard_Gateway();
         $apiHost = $orkestapay->getApiHost();
 
-        OrkestaPayCard_API::request($refundData, "$apiHost/v1/payments/{$orkestaPaymentId}/refund", 'PATCH');
+        OrkestaPayCard_API::request($refundData, "$apiHost/v1/payments/{$orkestaPaymentId}/refund", 'POST');
 
         $order->add_order_note('Refund was requested.');
     } catch (Exception $e) {

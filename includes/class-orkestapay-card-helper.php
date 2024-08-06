@@ -102,20 +102,34 @@ class OrkestaPayCard_Helper
         $subtotal = 0;
         foreach ($cart->get_cart() as $item) {
             $product = wc_get_product($item['product_id']);
+            $prouctID = $product->get_id();
+            $productType = $product->get_type();
             $name = trim(preg_replace('/[[:^print:]]/', '', strip_tags($product->get_title())));
             $desc = trim(preg_replace('/[[:^print:]]/', '', strip_tags($product->get_short_description())));
             $thumbnailUrl = wp_get_attachment_image_url($product->get_image_id());
+            $productPrice = wc_get_price_including_tax($product);
+            $isDigital = $product->is_virtual() || $product->is_downloadable();
+
+            // If product has variations, image, price and ID is taken from here
+            if ($productType == 'variable') {
+                $prouctID = $item['variation_id'];
+                $variable_product = new WC_Product_Variation($item['variation_id']);
+                $thumbnailUrl = wp_get_attachment_image_url($variable_product->get_image_id());
+                $productPrice = wc_get_price_including_tax($variable_product);
+            }
 
             $products[] = [
-                'product_id' => "{$product->get_id()}",
+                'product_id' => "$prouctID",
                 'name' => $name,
                 'description' => strlen($desc) > 0 ? substr($desc, 0, 250) : null,
                 'quantity' => $item['quantity'],
-                'unit_price' => wc_get_price_including_tax($product),
+                'unit_price' => $productPrice,
                 'thumbnail_url' => $thumbnailUrl,
+                'is_digital' => $isDigital,
+                'url' => $product->get_permalink(),
             ];
 
-            $subtotal += wc_get_price_including_tax($product) * $item['quantity'];
+            $subtotal += $productPrice * $item['quantity'];
         }
 
         $shipping = $cart->get_shipping_total() + $cart->get_shipping_tax();

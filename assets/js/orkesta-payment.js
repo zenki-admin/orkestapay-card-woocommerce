@@ -6,18 +6,14 @@ jQuery(document).ready(async function () {
     const merchant_id = orkestapay_card_payment_args.merchant_id;
     const public_key = orkestapay_card_payment_args.public_key;
     const is_sandbox = orkestapay_card_payment_args.is_sandbox === '1';
-    const currency = orkestapay_card_payment_args.currency;
-    const total_amount = orkestapay_card_payment_args.total_amount;
     const orkestapay_checkout_url = orkestapay_card_payment_args.orkestapay_checkout_url;
     const orkestapay_complete_3ds_payment_url = orkestapay_card_payment_args.orkestapay_complete_3ds_payment_url;
+    // const promotions_params = { currency: orkestapay_card_payment_args.currency, total_amount: orkestapay_card_payment_args.total_amount };
 
     const orkestapay = initOrkestaPay({ merchant_id, public_key, is_sandbox });
     console.log('orkestapay.js is ready!', orkestapay);
 
-    // const promotions_params = { currency, total_amount };
-    // const orkestapay_card = await createOrkestaPayCard(orkestapay, promotions_params);
-    // console.log('orkestapay_card', orkestapay_card);
-    // handlePromotionChanges(orkestapay_card);
+    const orkestapay_card = await orkestapay.createCard();
 
     await setDeviceSessionId(orkestapay);
 
@@ -49,18 +45,19 @@ jQuery(document).ready(async function () {
         try {
             const card_number = document.getElementById('orkestapay-card-number');
             const holder_name = document.getElementById('orkestapay-holder-name');
-            const cvv = document.getElementById('orkestapay-card-cvc');
-            const exp_date = document.getElementById('orkestapay-card-expiry');
+            const verification_code = document.getElementById('orkestapay-card-cvc');
+            const expiration_date = document.getElementById('orkestapay-card-expiry');
+            const expiry = cardExpiryVal(expiration_date.value);
 
-            const orkestapay_card = await orkestapay.createCard({
-                card_number: card_number,
-                expiration_date: exp_date,
-                verification_code: cvv,
-                holder_name: holder_name,
-                promotions_params: { currency, total_amount },
-            });
+            const card = {
+                card_number: card_number.value,
+                expiration_date: { expiration_month: expiry['month'], expiration_year: expiry['year'] },
+                verification_code: verification_code.value,
+                holder_name: holder_name.value,
+            };
 
             const payment_method = await orkestapay_card.createToken({
+                card,
                 one_time_use: true,
             });
 
@@ -81,8 +78,10 @@ jQuery(document).ready(async function () {
             enctype: 'multipart/form-data',
             data: $form.serializeArray(),
             success: async function (response) {
-                console.log('paymentRequest', JSON.stringify(response, null, 2)); // For testing (to be removed)
                 const { data } = response;
+
+                $form.append('<input type="hidden" name="orkestapay_payment_id" value="' + data.payment_id + '" />');
+                $form.append('<input type="hidden" name="orkestapay_order_id" value="' + data.order_id + '" />');
 
                 // If the payment is completed, submit the form
                 if (data.status === 'COMPLETED') {
@@ -107,8 +106,6 @@ jQuery(document).ready(async function () {
                     console.log('startModal3DSecure', result);
 
                     if (result) {
-                        $form.append('<input type="hidden" name="orkestapay_payment_id" value="' + data.payment_id + '" />');
-                        $form.append('<input type="hidden" name="orkestapay_order_id" value="' + data.order_id + '" />');
                         complete3DSPayment({ orkestapay_payment_id: data.payment_id });
                     }
                 }
@@ -133,7 +130,6 @@ jQuery(document).ready(async function () {
             contentType: 'application/json; charset=UTF-8',
             data: JSON.stringify(data),
             success: async function (response) {
-                console.log('complete3DSPayment', JSON.stringify(response, null, 2)); // For testing (to be removed)
                 const { data } = response;
 
                 if (data.status !== 'SUCCESS') {
@@ -162,21 +158,6 @@ async function setDeviceSessionId(orkestapay) {
     } catch (err) {
         console.error('setDeviceSessionId', err);
     }
-}
-
-async function createOrkestaPayCard(orkestapay, promotions_params) {
-    const card_number = document.getElementById('orkestapay-card-number');
-    const holder_name = document.getElementById('orkestapay-holder-name');
-    const cvv = document.getElementById('orkestapay-card-cvc');
-    const exp_date = document.getElementById('orkestapay-card-expiry');
-
-    return orkestapay.createCard({
-        card_number: card_number,
-        expiration_date: exp_date,
-        verification_code: cvv,
-        holder_name: holder_name,
-        promotions_params,
-    });
 }
 
 function handlePromotionChanges(orkestapay_card) {
@@ -215,4 +196,20 @@ function displayErrorMessage(error) {
 
 function logError(origin, error) {
     error && console.error(origin, error.code, error);
+}
+
+function cardExpiryVal(value) {
+    var month, prefix, year, _ref;
+    value = value.replace(/\s/g, '');
+    (_ref = value.split('/', 2)), (month = _ref[0]), (year = _ref[1]);
+    if ((year != null ? year.length : void 0) === 2 && /^\d+$/.test(year)) {
+        prefix = new Date().getFullYear();
+        prefix = prefix.toString().slice(0, 2);
+        year = prefix + year;
+    }
+
+    return {
+        month: month,
+        year: year,
+    };
 }

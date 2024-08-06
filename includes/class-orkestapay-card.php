@@ -17,7 +17,7 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
     protected $client_id;
     protected $client_secret;
     protected $public_key;
-    protected $plugin_version = '0.2.0';
+    protected $plugin_version = '0.3.0';
 
     const PAYMENT_ACTION_REQUIRED = 'PAYMENT_ACTION_REQUIRED';
     const STATUS_COMPLETED = 'COMPLETED';
@@ -290,9 +290,6 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
             // Remove cart
             $woocommerce->cart->empty_cart();
 
-            // Remueve el valor de la sesión de orkestapay_cart_id
-            WC()->session->set('orkestapay_cart_id', null);
-
             // Redirect to the thank you page
             return [
                 'result' => 'success',
@@ -385,7 +382,6 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
             $cart = WC()->cart;
             $apiHost = $this->getApiHost();
             $orkestaPayCartId = $this->getOrkestaPayCartId();
-            // $successUrl = "$successUrl?orkestapay_cart_id=$orkestaPayCartId";
             $cancelUrl = wc_get_checkout_url();
 
             $customer = [
@@ -450,8 +446,8 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
         try {
             $apiHost = $this->getApiHost();
             $transaction = OrkestaPayCard_API::request([], "$apiHost/v1/payments/$orkestapayPaymentId/complete");
-
-            $ajaxResponse = ['type' => $transaction->type, 'transaction_id' => $transaction->transaction_id, 'status' => $transaction->status, 'message' => $transaction->provider->message];
+            $message = $transaction->provider->message ?? __('A transaction error occurred. Your credit card has not been charged.', 'orkestapay-card');
+            $ajaxResponse = ['type' => $transaction->type, 'transaction_id' => $transaction->transaction_id, 'status' => $transaction->status, 'message' => $message];
 
             // Response
             wp_send_json_success($ajaxResponse);
@@ -528,13 +524,14 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
         // Se registra la orden en WooCommerce
         $order->save();
 
+        // Obtener el pago de OrkestaPay relacionado a la orden
+        $orkestaPayments = OrkestaPay_API::retrieve("$apiHost/v1/orders/$orkestapayOrderId/payments");
+
         update_post_meta($order->get_id(), '_orkestapay_order_id', $orkestaOrder->order_id);
+        update_post_meta($order->get_id(), '_orkestapay_payment_id', $orkestaPayments->content[0]->payment_id);
 
         // Remove cart
         $cart->empty_cart();
-
-        // Remueve el valor de la sesión de orkestapay_cart_id
-        WC()->session->set('orkestapay_cart_id', null);
 
         wp_safe_redirect($this->get_return_url($order));
         exit();
@@ -542,15 +539,8 @@ class OrkestaPayCard_Gateway extends WC_Payment_Gateway
 
     public function getOrkestaPayCartId()
     {
-        $orkestapay_cart_id = WC()->session->get('orkestapay_cart_id');
-
-        if (is_null($orkestapay_cart_id)) {
-            $bytes = random_bytes(16);
-            $orkestapay_cart_id = bin2hex($bytes);
-            WC()->session->set('orkestapay_cart_id', $orkestapay_cart_id);
-        }
-
-        return $orkestapay_cart_id;
+        $bytes = random_bytes(16);
+        return bin2hex($bytes);
     }
 
     private function getShippingLabel()
